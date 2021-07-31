@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Ajax, XML: Einzelobjekt</title>
+	<style type="text/css">
+		h1 {
+			text-align: center;
+		}
+
+		h1, h2, h3 {
+			font-family: Arial;
+		}
+	</style>
+	<script type="text/javascript">
+		function anfordern() {
+			req = new XMLHttpRequest();
+			req.open("get", "Ajax-XML-Einzelobjekt.xml", true);
+			req.onreadystatechange = auswerten;
+			req.send();
+		}
+
+		function auswerten(e) {
+			if (e.target.readyState == 4 && e.target.status == 200) {
+				let antwort = e.target.responseXML;
+				let kfarbe = antwort.getElementsByTagName("farbe")[0];
+				let kleistung = antwort.getElementsByTagName("leistung")[0];
+				document.getElementById("idDaten").firstChild.nodeValue = 
+				"Farbe: " + kfarbe.firstChild.nodeValue 
+				+ ", Leistung: " + kleistung.firstChild.nodeValue 
+				+ ", Hubraum: " + kleistung.getAttribute("hubraum") 
+				+ ", Zylinder: " + kleistung.getAttribute("zylinder");
+			}
+		}
+	</script>
+</head>
+<body>
+<h1>Ajax</h1>
+<h2>XML</h2>
+<h3>Einzelobjekt</h3>
+<p><b>Fahrzeugdaten:</b></p>
+<p><a href="#" id="idLink">Dacia</a></p>
+<p id="idDaten">&nbsp;</p>
+<script type="text/javascript">
+	document.getElementById("idLink").addEventListener("click", anfordern);
+</script>
+</body>
+</html>
